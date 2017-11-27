@@ -1,12 +1,17 @@
 package com.josh.krishna.cardstackuiaddmodule.activity;
 
+import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.josh.krishna.cardstackuiaddmodule.R;
@@ -14,6 +19,7 @@ import com.josh.krishna.cardstackuiaddmodule.R;
 public class Main2Activity extends AppCompatActivity {
     // BottomSheetBehavior variable
     private BottomSheetBehavior bottomSheetBehavior;
+    LinearLayout ll_content;
 
     // TextView variable
     private TextView bottomSheetHeading;
@@ -22,20 +28,21 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
         initViews();
     }
 
     private void initViews() {
 
+         ll_content =(LinearLayout)findViewById(R.id.ll_content);
+
         Button btnView = (Button) findViewById(R.id.btnView);
 
         bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottomSheetLayout));
         bottomSheetHeading = (TextView) findViewById(R.id.bottomSheetHeading);
-
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                boolean first = true;
 
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     //bottomSheetHeading.setText(getString(R.string.text_collapse_me));
@@ -49,16 +56,16 @@ public class Main2Activity extends AppCompatActivity {
                         //Log.e("Bottom Sheet Behaviour", "STATE_COLLAPSED");
                         break;
                     case BottomSheetBehavior.STATE_DRAGGING:
-                       // Log.e("Bottom Sheet Behaviour", "STATE_DRAGGING");
+                        //Log.e("Bottom Sheet Behaviour", "STATE_DRAGGING");
                         break;
                     case BottomSheetBehavior.STATE_EXPANDED:
-                       // Log.e("Bottom Sheet Behaviour", "STATE_EXPANDED");
+                        //Log.e("Bottom Sheet Behaviour", "STATE_EXPANDED");
                         break;
                     case BottomSheetBehavior.STATE_HIDDEN:
-                       // Log.e("Bottom Sheet Behaviour", "STATE_HIDDEN");
+                        //Log.e("Bottom Sheet Behaviour", "STATE_HIDDEN");
                         break;
                     case BottomSheetBehavior.STATE_SETTLING:
-                       // Log.e("Bottom Sheet Behaviour", "STATE_SETTLING");
+                        //Log.e("Bottom Sheet Behaviour", "STATE_SETTLING");
                         break;
                 }
             }
@@ -67,7 +74,6 @@ public class Main2Activity extends AppCompatActivity {
 
             @Override
             public void onSlide(View bottomSheet, float slideOffset) {
-
 
             }
         });
@@ -80,8 +86,29 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
+        boolean status = true;
+        bottomSheetHeading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutTransition transition = new LayoutTransition();
+
+                if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    ll_content.setLayoutTransition(transition);
+                }else {
+                    ll_content.setLayoutTransition(transition);
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                }
+
+            }
+        });
+
+
+
 
     }
+
 
 
 
